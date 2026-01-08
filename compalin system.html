@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Complaint Tracking System - TEAM A (SVR Engineering College NDL)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    body{
+      font-family: Arial;
+      background:#0f172a;
+      color:white;
+      margin:0;
+      padding:0;
+    }
+
+    header{
+      background:#020617;
+      padding:20px;
+      text-align:center;
+    }
+
+    .container{
+      max-width:900px;
+      margin:auto;
+      padding:20px;
+    }
+
+    .box{
+      background:#111f3b;
+      padding:20px;
+      border-radius:10px;
+      margin-bottom:20px;
+    }
+
+    input,textarea,select{
+      width:100%;
+      padding:10px;
+      margin-top:8px;
+      border-radius:5px;
+      border:none;
+    }
+
+    button{
+      background:#3b82f6;
+      border:none;
+      color:white;
+      padding:10px 15px;
+      border-radius:6px;
+      margin-top:10px;
+      cursor:pointer;
+    }
+
+    button:hover{
+      background:#2563eb;
+    }
+
+    .msg{
+      margin-top:10px;
+      background:#020617;
+      padding:12px;
+      border-radius:6px;
+    }
+
+    footer{
+      text-align:center;
+      background:#020617;
+      padding:15px;
+      margin-top:20px;
+    }
+
+    .credits{
+      color:#93c5fd;
+      font-weight:bold;
+    }
+
+    /* LOGO SECTION */
+    .contact-section{
+      display:flex;
+      align-items:center;
+      gap:15px;
+      flex-wrap:wrap;
+    }
+
+    .contact-logo{
+      width:90px;          /* Perfect balanced size */
+      height:90px;
+      object-fit:contain;  /* Keeps logo clean */
+      border-radius:8px;
+      background:white;
+      padding:5px;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>Complaint Tracking System</h1>
+  <p><b>Developed by TEAM-A — CSE Branch</b><br>
+  SVR Engineering College, Nandyal (NDL)</p>
+</header>
+
+<div class="container">
+
+  <!-- Submit complaint -->
+  <div class="box">
+    <h2>Submit Complaint</h2>
+
+    <input id="name" placeholder="Your Name">
+    <input id="email" placeholder="Your Email">
+    <textarea id="complaint" placeholder="Enter your complaint..."></textarea>
+
+    <button onclick="submitComplaint()">Submit Complaint</button>
+
+    <div class="msg" id="submitMsg"></div>
+  </div>
+
+  <!-- Track complaint -->
+  <div class="box">
+    <h2>Track Complaint</h2>
+
+    <input id="trackId" placeholder="Enter Tracking ID">
+
+    <button onclick="trackComplaint()">Track</button>
+
+    <div class="msg" id="trackMsg"></div>
+  </div>
+
+  <!-- Admin -->
+  <div class="box">
+    <h2>Admin Update Status</h2>
+
+    <input id="adminId" placeholder="Enter Tracking ID">
+    <select id="status">
+      <option>Pending</option>
+      <option>In Progress</option>
+      <option>Resolved</option>
+    </select>
+
+    <button onclick="updateStatus()">Update</button>
+
+    <div class="msg" id="adminMsg"></div>
+  </div>
+
+  <!-- Contact Section WITH LOGO -->
+  <div class="box">
+    <h2>Contact Details</h2>
+
+    <div class="contact-section">
+
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKIFz2zuC31wFQn3tGGuQlvIRdkwe3UK8XYQ&s" class="contact-logo" alt="SVR Engineering College Logo"></img>
+
+      <div>
+        <p><b>Email:</b> kotlaabdulazis1220@gmail.com</p>
+        <p><b>Phone:</b> +91 8790561631</p>
+        <p><b>Institution:</b> SVR Engineering College, Nandyal</p>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p class="credits">
+    Project Developed by TEAM-A — Department of CSE<br>
+    SVR Engineering College, Nandyal (NDL)
+  </p>
+</footer>
+
+<script>
+  function generateId(){
+    return "CMP" + Math.floor(Math.random()*100000);
+  }
+
+  function submitComplaint(){
+
+    let name=document.getElementById("name").value;
+    let email=document.getElementById("email").value;
+    let complaint=document.getElementById("complaint").value;
+
+    if(!name || !email || !complaint){
+      alert("Please fill all fields");
+      return;
+    }
+
+    let id = generateId();
+
+    let data = {
+      name:name,
+      email:email,
+      complaint:complaint,
+      status:"Pending"
+    };
+
+    localStorage.setItem(id,JSON.stringify(data));
+
+    document.getElementById("submitMsg").innerHTML =
+    "Your tracking ID is <b>"+id+"</b><br>Please save it.";
+  }
+
+  function trackComplaint(){
+    let id=document.getElementById("trackId").value;
+    let data=localStorage.getItem(id);
+
+    if(!data){
+      document.getElementById("trackMsg").innerHTML="Invalid ID";
+      return;
+    }
+
+    data=JSON.parse(data);
+
+    document.getElementById("trackMsg").innerHTML =
+    "<b>Name:</b> "+data.name+
+    "<br><b>Email:</b> "+data.email+
+    "<br><b>Complaint:</b> "+data.complaint+
+    "<br><b>Status:</b> "+data.status;
+  }
+
+  function updateStatus(){
+    let id=document.getElementById("adminId").value;
+    let data=localStorage.getItem(id);
+    let status=document.getElementById("status").value;
+
+    if(!data){
+      document.getElementById("adminMsg").innerHTML="Invalid ID";
+      return;
+    }
+
+    data=JSON.parse(data);
+    data.status=status;
+    localStorage.setItem(id,JSON.stringify(data));
+
+    document.getElementById("adminMsg").innerHTML="Status Updated!";
+  }
+</script>
+
+</body>
+</html>
