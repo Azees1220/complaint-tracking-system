@@ -1,0 +1,15 @@
+{
+  "name": "complaint-tracking-system",
+  "version": "1.0.0",
+  "description": "Complaint tracking system with static HTML",
+  "main": "compalin system.html",
+  "scripts": {
+    "start": "npx http-server -p 3000 -c-1",
+    "serve": "npx serve -s . -l 3000",
+    "build": "echo 'No build required for static site'"
+  },
+  "keywords": ["complaint", "tracking", "system"],
+  "author": "Azees1220",
+  "license": "MIT",
+  "devDependencies": {}
+}
