@@ -1,0 +1,8 @@
+[build]
+  command = "echo 'Static site - no build required'"
+  publish = "."
+
+[[redirects]]
+  from = "/*"
+  to = "/compalin system.html"
+  status = 200
